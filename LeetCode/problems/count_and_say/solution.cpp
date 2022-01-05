@@ -1,32 +1,80 @@
+/*lass Solution {
+public:
+    string countAndSay(int n) {
+        
+    }
+};*/
+
 class Solution {
+
 public:
 
-    string cas(string str){
-        string str1;
-        char ch=str[0];
-        int chn=1;
-        for(int i = 1; i<=str.size();i++){
-            if (str[i]==ch){chn++;}
-            else {
-                char chr = chn+'0';
-                str1 = str1+ chr;
-                str1 = str1+ch;
-                ch = str[i];
-                chn=1;
-            }
-        }
-        return str1;
-    }
     string countAndSay(int n) {
-        // Start typing your C/C++ solution below
-        // DO NOT write int main() function
-        if (n==1) {return "1";}
-        string str1 = "1";
-        string strn;
-        for (int i=1; i<n;i++){
-            strn = cas(str1);
-            str1 = strn;
+
+        if(n == 1){
+
+            return "1";
+
         }
-        return strn;
+
+        queue<char> q;
+
+        string a = "1";
+
+        while(n>1){
+
+            for(auto i: a){
+
+                q.push(i);
+
+            }
+
+            a="";
+
+            int count=1;
+
+            char exist = q.front();
+
+            q.pop();
+
+            while(!q.empty()){
+
+                char x = q.front();
+
+                q.pop();
+
+                if(exist != x){
+
+                    a.push_back(count+'0');
+
+                    a.push_back(exist);
+
+                    count = 1;
+
+                }
+
+                else{
+
+                    count++;
+
+                }
+
+                
+
+                exist = x;
+
+            }
+
+            a.push_back(count+'0');
+
+            a.push_back(exist);
+
+            n--;
+
+        }
+
+        return a;
+
     }
+
 };
