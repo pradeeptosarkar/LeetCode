@@ -1,25 +1,22 @@
 class Solution {
 public:
-    int maxSubArray(vector<int>& nums) 
+    int maxSubArray(vector<int>& A) 
     {
-        if (nums.size()<0)
+        if (A.size()<0)
           return 0;
           
-        int temp=nums[0], max=nums[0];
+        int n=A.size();
+        int loc=0;
+        int glob=INT_MIN;
         
-        for (int i=1;i<nums.size();i++)
+        for(int i=0;i<n;i++)
         {
-                        
-            if (temp<0)
-            {
-                temp=0;
-            }
-            temp+=nums[i];
-            if (temp>max)
-            {
-                max=temp;
-            }
-                
-        }return max;
+            loc=max(A[i], A[i]+loc);
+            
+            if(loc>glob)
+                glob=loc;
+        }
+        
+        return glob;
     }
 };
