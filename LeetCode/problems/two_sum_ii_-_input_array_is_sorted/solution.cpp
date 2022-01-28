@@ -1,8 +1,7 @@
 class Solution {
 public:
-    vector<int> twoSum(vector<int>& numbers, int target) 
-    {
-        for(int i=0;i<numbers.size();i++)
+    vector<int> twoSum(vector<int>& numbers, int target) {
+     for(int i=0;i<numbers.size();i++)
         {
             int lb=0,ub=numbers.size()-1,mid=0;
             while(lb<=ub)
@@ -27,6 +26,6 @@ public:
             }
             
         }
-        return vector<int>{0,0};
+        return vector<int>{0,0};   
     }
 };
