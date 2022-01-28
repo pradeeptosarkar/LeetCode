@@ -12,6 +12,7 @@ class Solution {
 public:
     ListNode* middleNode(ListNode* head) 
     {
+     
         ListNode* slow=head;
         ListNode* fast=head;
         
@@ -19,7 +20,6 @@ public:
         {
             slow=slow->next;
             fast=fast->next->next;
-            
             if(fast==nullptr)
                 return slow;
         }
