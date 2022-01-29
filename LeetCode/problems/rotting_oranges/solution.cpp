@@ -1,35 +1,62 @@
 class Solution {
+bool mod(vector<vector<int> > &grid, int i, int j)
+    {
+        if(i<0 || i>=grid.size() || j<0 || j>= grid[0].size())
+            return false;
+        //cout<<i<<" "<<j<<endl;
+        if(grid[i][j]==1)
+        {
+            grid[i][j]=2;
+            return true;
+        }
+        return false;
+    }
 public:
     int orangesRotting(vector<vector<int>>& grid) {
-        int m = grid.size(), n = grid[0].size(), res = 0, freshLeft = 0;
-        vector<vector<int>> dirs{{0,-1},{-1,0},{0,1},{1,0}};
-        //Save all cells of rotten oranges into a queue.
-        queue<pair<int, int>> q;
-        for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < n; ++j) {
-                if (grid[i][j] == 2) q.push({i, j});
-                else if (grid[i][j] == 1) freshLeft++;
-            }
-        }
-        while (!q.empty() && freshLeft > 0) {
-            // Record how many rounds the transmission has occured. 
-            for (int i = q.size(); i > 0; --i) {
-                // Get a 0 rotten orange cell t from queue. 
-                pair<int, int> t = q.front(); q.pop();
-                // Move to a one step away from this cell. 
-                for (auto dir : dirs) {
-                    int x = t.first + dir[0], y = t.second + dir[1];
-                    // If it steps out of the matrix, or the adjacent cell is a rotten orange, or there is no orange there. 
-                    if (x < 0 || x >= m || y < 0 || y >= n || grid[x][y] != 1) continue;
-                    // The adjacent cell is rotten now.
-                    grid[x][y] = 2;
-                    q.push({x, y});
-                    freshLeft --; 
+        int ans=0; 
+        queue<pair<int,int>> q; 
+        //fill the queue with rotten oranges  
+        for(int i=0; i<grid.size(); i++)
+            for(int j =0; j<grid[0].size(); ++j)
+            {
+                if(grid[i][j]==2)
+                {
+                    q.push(make_pair(i,j));
                 }
             }
-            res++;
+        //cout<<q.size()<<endl;
+        while(!q.empty())
+        {
+            int n = q.size();
+            for(int l=0; l<n; l++)
+            {
+                pair<int,int> it = q.front(); 
+                int i = it.first;
+                int j  = it.second;
+                //cout<<i<<" "<<j<<endl;
+                q.pop();
+                if(mod(grid,i+1,j))
+                    q.push(make_pair(i+1,j));
+                if(mod(grid,i-1,j))
+                    q.push(make_pair(i-1,j));
+                if(mod(grid,i,j+1))
+                    q.push(make_pair(i,j+1));
+                if(mod(grid,i,j-1))
+                    q.push(make_pair(i,j-1));
+                
+            }
+            //cout<<q.size()<<endl;
+            if(!q.empty())
+                ans++;
+            
         }
-        return freshLeft > 0? -1: res;
-
+        //check if any cell still has fresh orange
+        for(int i=0; i<grid.size(); ++i)
+            for(int j=0; j<grid[0].size(); ++j)
+            {
+                if(grid[i][j]==1)
+                    return -1; 
+            }
+        return ans; 
     }
 };
