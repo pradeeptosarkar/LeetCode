@@ -1,29 +1,41 @@
 class Solution {
+    int xDir[4] = {0, 0, 1, -1};
+    int yDir[4] = {1, -1, 0, 0};
+    int N,M;
 public:
     vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
-        int m = mat.size(), n = mat[0].size();
-        vector<vector<int>> dirs{{0,-1},{-1,0},{0,1},{1,0}};
-        //Save all cells of 0 into a queue. Change cells of 1 into INT_MAX.
-        queue<pair<int, int>> q;
-        for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < n; ++j) {
-                if (mat[i][j] == 0) q.push({i, j});
-                else mat[i][j] = INT_MAX;
+        N = mat.size(); M = mat[0].size();
+        queue<pair<int,int>> q;
+        vector<vector<int>> vis(N, vector<int>(M, 0));
+        
+        for(int i=0;i<N;i++) {
+            for(int j=0;j<M;j++) {
+                if(mat[i][j] == 0) {
+                    q.push({i,j});
+                    vis[i][j] = 1;
+                }
             }
         }
-        while (!q.empty()) {
-            // Get a 0 cell t from queue. 
-            pair<int, int> t = q.front(); q.pop();
-            // Move to a one step away from this cell. 
-            for (auto dir : dirs) {
-                int x = t.first + dir[0], y = t.second + dir[1];
-                // If it steps out of the matrix, or the adjacent cell already records a smaller distance (for instance, the adjacent cell is also 0). 
-                if (x < 0 || x >= m || y < 0 || y >= n || mat[x][y] <= mat[t.first][t.second] + 1) continue;
-                // Adds one distance to the adjacent cell.
-                mat[x][y] = mat[t.first][t.second] + 1;
-                q.push({x, y});
+        
+        while(!q.empty()) {
+            int r = q.front().first;
+            int c = q.front().second;
+            q.pop();
+            
+            for(int i=0;i<4;i++) {
+                int x = r + xDir[i], y = c + yDir[i];
+                if(isValid(x,y) && !vis[x][y]) {
+                    vis[x][y] = 1;
+                    mat[x][y] = mat[r][c] + 1;
+                    q.push({x,y});
+                }
             }
         }
+        
         return mat;
+    }
+    
+    bool isValid(int x, int y) {
+        return x >= 0 && x < N && y >= 0 && y < M;
     }
 };
