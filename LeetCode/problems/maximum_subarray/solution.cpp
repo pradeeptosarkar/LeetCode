@@ -1,7 +1,6 @@
 class Solution {
 public:
-    int maxSubArray(vector<int>& A) 
-    {
+    int maxSubArray(vector<int>& A) {
         if (A.size()<0)
           return 0;
           
@@ -15,8 +14,7 @@ public:
             
             if(loc>glob)
                 glob=loc;
-        }
-        
+        }   
         return glob;
     }
 };
