@@ -1,27 +1,18 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
+/* PSRC CP Template 3 */
+
 class Solution {
 public:
     vector<int> vec;
     bool isValidBST(TreeNode* root) {
         
-        inorder(root); // BST inorder traversal should return sorted array
+        inorder(root);
         if (std::is_sorted(vec.begin(), vec.end())) {
             for (int i=0; i<(vec.size()-1); i++)
             {
-                if (vec[i] == vec[i+1]) // if 2 elements same, cannot be BST. Return false
+                if (vec[i] == vec[i+1])
                     return false;
             }
-            return true; // the largest element would be the last one
+            return true;
         }
         else {
             return false; 
