@@ -1,14 +1,32 @@
-class Solution {
+/*class Solution {
 public:
-    int titleToNumber(string s) 
-    {
-        int len = s.size();
-        int res = 0;
+    int titleToNumber(string columnTitle) {
+        
+    }
+};*/
 
-        for (int i = 0; i < len; i++) {
-            res += (s[len - i - 1] - 'A' + 1) * pow(26, i);
+class Solution {
+
+public:
+
+    int titleToNumber(string columnTitle) {
+
+        int result = 0;
+
+        for(char c : columnTitle)
+
+        {
+
+			//d = s[i](char) - 'A' + 1 (we used  s[i] -  'A' to convert the letter to a number like it's going to be C)
+
+            int d = c - 'A' + 1;
+
+            result = result * 26 + d;
+
         }
 
-        return res;
+        return result;
+
     }
+
 };
