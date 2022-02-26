@@ -1,19 +1,20 @@
+//::Pradeepto Sarkar LC15 26/02/2022:://
+
 class Solution {
 public:
-    vector<vector<int>> threeSum(vector<int>& num) 
-    {
-        vector<vector<int>> res;
-        sort(num.begin(),num.end());
+    vector<vector<int>> threeSum(vector<int>& nums) {
+       vector<vector<int>> res;
+        sort(nums.begin(),nums.end());
         
-        for(int i=0;i<num.size();i++)
+        for(int i=0;i<nums.size();i++)
         {
-            int target=-num[i];
+            int target=-nums[i];
             int front=i+1;
-            int back=num.size()-1;
+            int back=nums.size()-1;
             
             while(front<back)
             {
-                int sum=num[front]+num[back];
+                int sum=nums[front]+nums[back];
                 
                 if(sum<target)
                     front++;
@@ -23,21 +24,21 @@ public:
                 
                 else
                 {
-                    vector<int> triplet = {num[i],num[front],num[back]};
+                    vector<int> triplet = {nums[i],nums[front],nums[back]};
                     res.push_back(triplet);
                     
-                    while(front<back && num[front]==triplet[1])
+                    while(front<back && nums[front]==triplet[1])
                         front++;
                     
-                    while(front<back && num[back]==triplet[2])
+                    while(front<back && nums[back]==triplet[2])
                         back--;
                 }
             }
         
-        while(i+1<num.size() && num[i+1]==num[i])
+        while(i+1<nums.size() && nums[i+1]==nums[i])
             i++;
         }
     
-    return res;
+    return res; 
     }
 };
