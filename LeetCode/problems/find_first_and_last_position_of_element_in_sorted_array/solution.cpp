@@ -1,10 +1,19 @@
+//Pradeepto Sarkar LC34
+
 class Solution {
 public:
-   vector<int> searchRange(vector<int>& N, int T) {
-        pair<vector<int>::iterator,vector<int>::iterator> range;
-        range = equal_range(N.begin(), N.end(), T);
-        int Tleft = distance(N.begin(), range.first);
-        if (Tleft == N.size() || N[Tleft] != T) return {-1, -1};
-        return {Tleft, (int)distance(N.begin(), range.second) - 1};
+    vector<int> searchRange(vector<int>& nums, int target) 
+    {
+        vector<int> ans{-1,-1};
+        
+        if(!binary_search(nums.begin(),nums.end(),target))
+            return ans;
+        
+        int start=lower_bound(nums.begin(),nums.end(),target)-nums.begin();
+        int end=upper_bound(nums.begin(),nums.end(),target)-nums.begin();
+        
+        ans[0]=start;
+        ans[1]=end-1;
+        return ans;
     }
 };
