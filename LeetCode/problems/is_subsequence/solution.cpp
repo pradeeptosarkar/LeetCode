@@ -1,3 +1,5 @@
+//::Pradeepto Sarkar LC392:://
+
 class Solution {
 public:
     bool isSubsequence(string text1, string text2) {
