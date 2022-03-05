@@ -1,32 +1,21 @@
+//::Pradeepto Sarkar LC740 05/03/2022:://
+
 class Solution {
 public:
     int deleteAndEarn(vector<int>& nums) {
-        sort(nums.begin(), nums.end());
-        vector<int> total;
-        vector<int> v;
-        v.push_back(nums[0]);
-        int sum = nums[0];
-        for (int i = 1; i < nums.size(); i++) {
-            if (nums[i] == nums[i - 1]) {
-                sum += nums[i];
-            } else {
-                total.push_back(sum);
-                sum = nums[i];
-                v.push_back(nums[i]);
-            }
-        }
-        total.push_back(sum);
-        int a = 0, b = total[0];
-        for (int i = 1; i < total.size(); i++) {
-            int temp = b;
-            if (v[i] != v[i - 1] + 1) {
-                b = b + total[i];
-            } else {
-                b = a + total[i];
-            }
-            a = temp;
-            b = max(a, b);
-        }
-        return b;
+        int max_elem= *max_element(nums.begin(), nums.end());
+        int dp[20001];
+        vector<int> freq(20001);
+        
+        for(int i:nums)
+            freq[i]++;
+        
+        dp[1]=freq[1];
+        dp[2]=max(dp[1], freq[2]*2);
+        
+        for(int i=3;i<=max_elem;i++)
+            dp[i]=max(dp[i-1], dp[i-2]+freq[i]*i);
+        
+        return dp[max_elem];
     }
 };
