@@ -1,3 +1,5 @@
+//::Pradeepto Sarkar LC1281:://
+
 class Solution {
 public:
     int subtractProductAndSum(int n) {
