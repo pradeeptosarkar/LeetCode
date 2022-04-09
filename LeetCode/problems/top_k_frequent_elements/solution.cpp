@@ -1,24 +1,24 @@
 class Solution {
 public:
-    vector<int> topKFrequent(vector<int>& nums, int k) 
-    {
-        map<int, int> count;
-        int Max=1;
-        for (const int num : nums)
-            Max=max(Max, ++count[num]);
-        map<int, vector<int>> bucket;
-        for (auto kv : count)
-            bucket[kv.second].push_back(kv.first);
-        vector<int> ans;
-        for(int i=Max;i>=1;--i) 
-        {
-            auto it=bucket.find(i);
-            if(it == bucket.end()) 
-                continue;
-            ans.insert(ans.end(), it->second.begin(), it->second.end());
-            if(ans.size() == k) 
-                return ans;
-        }
-        return ans;
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+    //create a vector and a map
+    vector<int> v;
+    unordered_map<int, int> m;
+    //store the nums in map 
+    for(auto num: nums){
+        m[num]++;
     }
+    //create priority_queue and store the value
+    priority_queue<pair<int,int>> q;
+    for(auto val: m){
+        q.push({val.second, val.first});
+    }
+    //push the tow k value in vector
+    while(k--){
+        v.push_back(q.top().second);
+        q.pop();
+    }
+    // return vector
+    return v;
+}
 };
