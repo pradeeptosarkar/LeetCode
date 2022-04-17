@@ -10,21 +10,29 @@
  * };
  */
 class Solution {
-    TreeNode* prev=NULL;
 public:
-    TreeNode* increasingBST(TreeNode* root) {
-        if(!root)return NULL;
-        flatten(root);
-        return prev;
-    }
-    void flatten(TreeNode * root)
+    
+    TreeNode *head = new TreeNode();
+    TreeNode *curr = head;
+    
+    void left_inOrder(TreeNode *root)
     {
         if(!root)
             return;
-        flatten(root->right);
-        root->right=prev;
-        prev=root;
-        flatten(root->left);
-        root->left=NULL;
+        
+        left_inOrder(root->left);
+            
+        curr->right=root;
+        curr=root;
+        curr->left=nullptr;
+        
+        left_inOrder(root->right);
+            
+    }
+    
+    TreeNode* increasingBST(TreeNode* root) 
+    {
+        left_inOrder(root);
+        return head->right;        
     }
 };
