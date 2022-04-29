@@ -12,20 +12,22 @@ class Solution {
 public:
     int getDecimalValue(ListNode* head) 
     {
-        vector<int> bin;
+        
+        vector<int> tp;
         int temp,ans=0;
         
         while(head!=NULL)
         {
             temp=head->val;
-            bin.push_back(temp);
+            tp.push_back(temp);
             head=head->next;
         }
-        int n=bin.size();
+        int n=tp.size();
         
         for(int i=0;i<n;i++)
-            ans+=(bin[i]*(pow(2,n-1-i)));
+            ans+=(tp[i]*pow(2,n-1-i));
         
         return ans;
+        
     }
 };
