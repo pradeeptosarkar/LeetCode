@@ -13,9 +13,9 @@ class Solution
 public:
     ListNode* reverseList(ListNode* head) 
     {
-        struct ListNode* prev = NULL;
-        struct ListNode* current = head; 
-        struct ListNode* next;
+        ListNode* prev = NULL;
+        ListNode* current = head; 
+        ListNode* next;
         
         while(current!=NULL)
         {
