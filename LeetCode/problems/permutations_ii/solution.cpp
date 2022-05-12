@@ -1,36 +1,34 @@
 class Solution {
 public:
-    map<int,int> mp;
-    vector<vector<int>> answers;
-    int n;
-    void rec(vector<int> &ans)
-    {
-        
-        if(ans.size()==n)
-        {
-            answers.push_back(ans);
-            return ;
-        }
-        
-        for(auto &x: mp)
-        {
-            if(x.second!=0)
-            {
-                ans.push_back(x.first);
-                x.second-=1;
-                rec(ans);
-                ans.pop_back();
-                x.second+=1;
-            }
-        }
+    unordered_map<int,int> mymap;
+    int mod = 1e9 + 7;
+    int base = 37;
+    vector<vector<int> > ans;
+    vector<int> temp;
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        for(int i=0;i<nums.size();i++) nums[i] = nums[i] + 10;
+        solve(nums, 0, 0);
+        return ans;
     }
     
-    vector<vector<int>> permuteUnique(vector<int>& nums) {
-        // unique permutations 
-        for(auto x:nums)mp[x]++;
-        vector<int> ans;
-        n=nums.size();
-        rec(ans);
-        return answers;
+    void solve(vector<int>& nums, int mask, int hashValue){
+        int n = nums.size();
+        if(mask == (1<<n)-1){
+            if(!mymap[hashValue]){
+                ans.push_back(temp);
+                mymap[hashValue]++;
+            }
+            return;
+        }
+        
+        for(int i=0;i<n;i++){
+            if( !(mask & (1<<i)) ){
+                long long t = hashValue * 1ll * base + nums[i];
+                if(t>=mod) t %= mod;
+                temp.push_back(nums[i] - 10);
+                solve(nums, mask | (1<<i), t);
+                temp.pop_back();
+            }
+        }
     }
 };
