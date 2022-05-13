@@ -1,21 +1,31 @@
 class Solution {
 public:
-    int search(vector<int>& nums, int target) 
+    
+    int binary_search(vector<int>& nums, int left, int right, int target)
     {
-        int left=0, right=nums.size()-1;
-        int ans=-1;
         
-        while(left<=right)
+        if(left<=right)
         {
             int mid=(left+right)/2;
             
             if(nums[mid]==target)
                 return mid;
-            else if(target<nums[mid])
-                right=mid-1;
+            else if(nums[mid]>target)
+                return binary_search(nums, left, mid-1, target);
             else
-                left=mid+1;
+                return binary_search(nums, mid+1, right, target);
         }
-        return ans;
+       
+        return -1;
+        
+        
+    }
+    
+    int search(vector<int>& nums, int target) 
+    {
+        int left=0;
+        int right=nums.size()-1;
+        
+        return binary_search(nums, left, right, target);
     }
 };
