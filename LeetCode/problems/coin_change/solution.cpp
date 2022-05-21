@@ -1,50 +1,25 @@
 class Solution {
 public:
-    int coinChange(vector<int>& coins, int n) {
-        int dp[n + 1];        
-
-        for(int i {0}; i < n + 1; i++)
-
-        {
-
-            if(i == 0)
-
-            {
-
-                dp[i] = 0;
-
-            }
-
-            else
-
-            {
-
-                int mini = INT_MAX;
-
-                for(int& coin : coins)
-
-                {
-
-                    if(i - coin > -1)
-
-                    {
-
-                        mini = min(mini, dp[i - coin]);
-
-                    }
-
-                }
-
-                dp[i] = mini == INT_MAX ? mini : mini + 1;
-
-            }
-
-        }        
-
+    int coinChange(vector<int>& coins, int amount) 
+    {
+        if(amount==0 or coins.size()==0)
+            return 0;
         
-
-        return dp[n] == INT_MAX ? -1 : dp[n];
-
-    
+        vector<int> dp(amount+1, amount+2);
+        
+        dp[0]=0;
+        
+        for(int i=0;i<coins.size();i++)
+        {
+            if(coins[i]<=amount)// no use iterating over coins having denomination higher than amount
+            {
+                for(int j=coins[i];j<=amount;j++)
+                {
+                    dp[j]=min(dp[j], dp[j-coins[i]]+1);
+                }
+            }
+        }
+        
+        return dp[amount]==amount+2?-1:dp[amount];
     }
 };
