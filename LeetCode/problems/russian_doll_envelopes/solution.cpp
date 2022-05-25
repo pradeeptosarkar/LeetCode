@@ -1,21 +1,35 @@
 class Solution {
 public:
-    int maxEnvelopes(vector<vector<int>>& envelopes) {
-        std::sort(envelopes.begin(), envelopes.end());
-        int n = envelopes.size();
-        vector<int> DP(n,1);
-        int longest = 1;
-        for(int i=1;i<n;i++)
+    
+    static bool comp(vector<int>& a, vector<int>& b)
+    {
+        if(a[0]==b[0])
+            return a[1]>b[1];
+        else
+            return a[0]<b[0];
+    }
+    
+    int maxEnvelopes(vector<vector<int>>& envelopes) 
+    {
+        int n=envelopes.size();
+        
+        sort(envelopes.begin(), envelopes.end(), comp);
+        
+        vector<int> lis;
+        
+        for(auto i:envelopes)
         {
-            for(int j=0;j<i;j++)
-            {
-                if(envelopes[i][1]>envelopes[j][1]&& envelopes[i][0]>envelopes[j][0] && DP[i]<DP[j]+1)
-                {
-                    DP[i]=DP[j]+1;
-                    longest = max(longest, DP[i]);
-                }
-            }
-        }        
-        return longest;
+            int ele=i[1];
+            int idx=lower_bound(lis.begin(), lis.end(), ele)-lis.begin();
+            
+            if(idx>=lis.size())
+                lis.emplace_back(ele);
+            
+            else
+                lis[idx]=ele;
+        }
+        
+        return lis.size();
+        
     }
 };
