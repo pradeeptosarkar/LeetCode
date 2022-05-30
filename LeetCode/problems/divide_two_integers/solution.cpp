@@ -1,23 +1,31 @@
 class Solution {
 public:
     int divide(int dividend, int divisor) {
-        if(dividend == INT_MIN && divisor == -1) return INT_MAX;
-        long long p = abs(dividend), q = abs(divisor);
-        int sign = ((dividend > 0 && divisor < 0) || (dividend < 0 && divisor > 0)) ? -1 : 1;
-        long long ans = 0, total = 0;
-        while(true) {
-            int n = 0;
-            long long tmp = q;
-            while(tmp + total <= p) {
-                n++;
-                tmp <<= 1LL;
+        
+        //Handling corner cases
+        if(dividend==INT_MIN && divisor==-1) return INT_MAX;
+        if(dividend==INT_MIN && divisor==1) return INT_MIN;
+
+        
+        //Converting divisors and dividend to their positive values
+        long int dd = abs(dividend), dv = abs(divisor);
+        
+        //Result Variables
+        int res=0;
+        while(dv<=dd) {
+            long int mul=dv, tmp=1;
+            while(mul<=dd-mul) {
+                mul+=mul;
+                tmp+=tmp;
             }
-            if(n < 1) {
-                break;
-            }
-            ans += pow(2,n-1);
-            total += tmp >> 1LL;
+            res+=tmp;
+            dd-=mul;
         }
-        return ans * sign;
+        
+        //If either of dividend or divisor is negative our result will be negative
+        if((dividend<0&&divisor>0) || (dividend>0&&divisor<0)) return -res;
+        
+        return res;
+        
     }
 };
