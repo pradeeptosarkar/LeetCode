@@ -1,49 +1,28 @@
 class Solution {
 public:
-    int minimumTotal(vector<vector<int>>& triangle);
-};
-/************************************************************************/
-int Solution::minimumTotal(vector<vector<int>>& triangle) {
-    /* check edge cases */
-    if (triangle.size() == 1) {
-        return triangle[0][0];
-    }
-    vector<int> aux, sumAcum;
-    int nRows, nColumns, rows, columns;
-    /* first case */
-    aux.emplace_back(triangle[0][0]);
-    sumAcum=aux;
-    aux.clear();
-    /* constant initialization */
-    nRows = triangle.size();
-    /* sumAcum fulling */
-    for (rows = 1; rows < nRows; ++rows) {
-        nColumns = triangle.at(rows).size();
-        for (columns = 0; columns < nColumns; ++columns) {
-            /* trivial case */
-            if (rows == 1) {
-                aux.emplace_back(sumAcum[0]+triangle[rows][columns]);
-                continue;
+    int minimumTotal(vector<vector<int>>& triangle) 
+    {
+        int n=triangle.size();
+        vector<vector<int>>ans(n,vector<int>(n,0));
+        ans[0][0]=triangle[0][0];
+        for(int i=1;i<n;i++)
+        {
+            for(int j=0;j<triangle[i].size();j++)
+            {
+                if(j==0)
+                    ans[i][j]=ans[i-1][j]+triangle[i][j];
+                
+                else if(j==triangle[i].size()-1)
+                    ans[i][j]=ans[i-1][j-1]+triangle[i][j];
+                
+                else
+                    ans[i][j]=min(ans[i-1][j],ans[i-1][j-1])+triangle[i][j];
             }
-            /* test if right border of the triangle */
-            if (columns+1 >= nColumns) {
-                aux.emplace_back(sumAcum[columns-1]+triangle[rows][columns]);
-            } else if (columns == 0) {
-                aux.emplace_back(sumAcum[columns]+triangle[rows][columns]);
-            } else {
-                if (sumAcum[columns-1] <= sumAcum[columns]) {
-                    aux.emplace_back(sumAcum[columns-1]+triangle[rows][columns]);
-                } else {
-                    aux.emplace_back(sumAcum[columns]+triangle[rows][columns]);
-                }
-            }
-        } 
-        /* test if there is room for one more round or not */
-        if (rows+1 < nRows) {
-            sumAcum=aux;
-            aux.clear();
         }
+        int soln=INT_MAX;
+        for(int i=0;i<n;i++)
+            soln=min(soln,ans[n-1][i]);
+        return soln;
+        
     }
-    /* return final value */
-    return *min_element(aux.begin(), aux.end());
-}
+};
