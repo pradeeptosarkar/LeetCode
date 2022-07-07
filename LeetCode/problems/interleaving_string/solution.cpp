@@ -1,25 +1,37 @@
-class Solution {
+class Solution 
+{
 public:
-    bool isInterleave(string s1, string s2, string s3) {
-        int n1 = s1.length(), n2 = s2.length(), n3 = s3.length();
-        if(n3 != n1 + n2) return false;
+    bool isInterleave(string s1, string s2, string s3) 
+    {
+        vector<int>cur(s2.size()+1,0),prev(s2.size()+1,0);
         
-        vector<vector<int>>dp(n1+1,vector<int>(n2+1,false));
-        // dp[i][j] = whether the first i+j elements of s3 is the interleaving string of first i elements of s1 and first j elements of s2
+        if(s3.size()!=s1.size()+s2.size())
+            return false;
         
-        dp[0][0]=true;
-        for(int i=1; i<=n1; i++)
-            dp[i][0] = dp[i-1][0] && (s1[i-1] == s3[i-1]);
-        
-        for(int j=1; j<=n2; j++)
-            dp[0][j] = dp[0][j-1] && (s2[j-1] == s3[j-1]);
-        
-        for(int i=1; i<=n1; i++){
-            for(int j=1; j<=n2; j++){
-                dp[i][j] = (dp[i-1][j] && (s1[i-1] == s3[i+j-1])) || (dp[i][j-1] && (s2[j-1] == s3[i+j-1]));
+        for(int i=s1.size();i>=0;i--)
+        {
+            for(int j=s2.size();j>=0;j--)
+            {
+                int k=i+j;
+                
+                if(i==s1.size()&&j==s2.size())
+                    cur[j]=1;
+                
+                else if(s3[k]==s2[j]&&s3[k]==s1[i])
+                    cur[j]= prev[j]||cur[j+1];
+                
+                else if(s1[i]==s3[k])
+                    cur[j]= prev[j];
+                
+                else if(s3[k]==s2[j])
+                    cur[j]= cur[j+1];
+                
+                else
+                    cur[j]= false;
+                
             }
+            prev=cur;
         }
-        
-        return dp[n1][n2]; 
+        return cur[0];
     }
 };
