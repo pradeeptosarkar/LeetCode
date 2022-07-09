@@ -1,22 +1,20 @@
 class Solution {
 public:
-    int maxResult(vector<int>& nums, int k) {
-        int n = nums.size();
-        int dp[n];
-        priority_queue<pair<int,int>>q;
-        dp[n-1] = nums[n-1];
-        q.push({dp[n-1],n-1});
-        for(int i=n-2;i>=0;i--)
-        {
-            auto x = q.top();
-            dp[i] = nums[i]+x.first;
-            while(!q.empty() && x.second >= (i+k)) 
-            {
-                q.pop();
-                x = q.top();
+    int maxResult(vector<int>& nums, int k) 
+    {
+        deque<pair<int, int>> dp;
+        dp.emplace_front(nums[0], 0);
+        for (int i = 1; i < nums.size(); i++) {
+            while (dp.front().second + k < i) {
+                dp.pop_front();
             }
-            q.push({dp[i],i});
+            int cost = dp.front().first + nums[i];
+            while (!dp.empty() && cost >= dp.back().first) {
+                dp.pop_back();
+            }
+            dp.emplace_back(cost, i);
         }
-        return  dp[0];
+        return dp.back().first;
+        
     }
 };
