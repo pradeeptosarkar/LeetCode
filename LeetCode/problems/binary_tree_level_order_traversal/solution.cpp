@@ -1,28 +1,38 @@
-class Solution {
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution 
+{
 public:
-    vector<vector<int>> levelOrder(TreeNode* root) {
-        vector<vector<int>> levelOrderNodes;
+    
+    vector<vector<int>> dfs(vector<vector<int>>& answerVector, TreeNode* root, int level)
+    {
         if(!root)
-            return levelOrderNodes;
-        queue<TreeNode*> q;
-        q.push(root);
-        while(!q.empty())
-        {
-            int s=q.size();
-            vector<int> levelNodes;
-            for(int i=0;i<s;i++)
-            {
-                TreeNode* n=q.front();
-                if(n)
-                    levelNodes.push_back(n->val);
-                q.pop();
-                if(n->left)
-                    q.push(n->left);
-                if(n->right)
-                    q.push(n->right);
-            }
-            levelOrderNodes.push_back(levelNodes);
-        }
-        return levelOrderNodes;
+            return answerVector;
+        
+        if(level==answerVector.size())
+            answerVector.push_back({});
+        
+        answerVector[level].push_back(root->val);
+        dfs(answerVector, root->left, level+1);
+        dfs(answerVector, root->right, level+1);
+        
+        return answerVector;
+    }
+    
+    vector<vector<int>> levelOrder(TreeNode* root) 
+    {
+        vector<vector<int>> answerVector;
+        return dfs(answerVector, root, 0);
+        
+       
     }
 };
