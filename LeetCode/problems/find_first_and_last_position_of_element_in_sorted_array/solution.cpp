@@ -1,6 +1,5 @@
-//Pradeepto Sarkar LC34
-
-class Solution {
+class Solution 
+{
 public:
     vector<int> searchRange(vector<int>& nums, int target) 
     {
