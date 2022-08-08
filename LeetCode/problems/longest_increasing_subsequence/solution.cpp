@@ -11,7 +11,8 @@ public:
             res.push_back(nums[i]);
         else 
             *it = nums[i];
-    }
-    return res.size();
+        }
+        return res.size();
+        
     }
 };
