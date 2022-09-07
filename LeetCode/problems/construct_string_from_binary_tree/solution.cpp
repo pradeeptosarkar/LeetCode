@@ -11,29 +11,17 @@
  */
 class Solution {
 public:
-    string ans="";
-    string tree2str(TreeNode* root) {
-        if(!root)
-            return ans;
-        ans +=to_string(root->val);
-        if(root->left)
-        {
-            ans += "(";
-            ans = tree2str(root->left);
-            ans +=")";
-        }
-        if(root->right and root->left)
-        {
-            ans += "(";
-            ans = tree2str(root->right);
-            ans +=")";
-        }
-        else if(root->right)
-        {
-            ans += "()(";
-            ans = tree2str(root->right);
-            ans +=")";
-        }
-        return ans;
+    
+    string tree2str(TreeNode* root) 
+    {        
+        string ans = to_string(root->val);
+		if (root->left)
+			ans += "(" + tree2str(root->left) + ")";
+		if (root->right) { 
+			if (!root->left) ans += "()"; 
+			ans += "(" + tree2str(root->right) + ")"; 
+		}
+		return ans;
+        
     }
 };
