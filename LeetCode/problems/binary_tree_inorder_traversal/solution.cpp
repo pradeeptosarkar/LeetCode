@@ -10,43 +10,25 @@
  * };
  */
 class Solution {
-
 public:
-
+    
     vector<int> ans;
-
     
-
-    void inorderTraversalR(TreeNode* root){
-
-        if(!root) return;
-
-        if(root->left){
-
-            inorderTraversal(root->left);
-
-        }
-
+    void helper(TreeNode* root)
+    {
+        if(!root)
+            return;
+        if(root->left)
+            helper(root->left);
         ans.push_back(root->val);
-
-        if(root->right){
-
-            inorderTraversal(root->right);
-
-        }
-
+        if(root->right)
+            helper(root->right);
     }
-
     
-
-    vector<int> inorderTraversal(TreeNode* root) {
-
-        inorderTraversalR(root);
-
+    vector<int> inorderTraversal(TreeNode* root) 
+    {
+        helper(root);
         return ans;
-
-    }
-
-};
         
-
+    }
+};
