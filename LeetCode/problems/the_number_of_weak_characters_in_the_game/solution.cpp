@@ -16,13 +16,13 @@ public:
         int maxi=0;
         int ans=0;
         
-        for(int i=properties.size()-1;i>=0;i--){
+        for(int i=properties.size()-1;i>=0;i--)
+        {
             if(properties[i][1]<maxi)
                 ans++;
         
-        maxi=max(maxi,properties[i][1]);
-            }
+            maxi=max(maxi,properties[i][1]);
+        }
         return ans;
-        
     }
 };
