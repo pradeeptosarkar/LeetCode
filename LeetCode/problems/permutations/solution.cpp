@@ -1,32 +1,27 @@
 class Solution {
 public:
-    void getAllPossiblePermute(vector<vector<int>>& allPermute, vector<int> &nums, int idx){
-        if(idx >= nums.size()){
-            allPermute.push_back(nums);
+    vector<vector<int>> ans;
+    
+    void solve(int idx, vector<int> nums)
+    {
+        if(idx==nums.size())
+        {
+            ans.push_back(nums);
+            return ;
         }
         
-        for(int i = idx; i<nums.size(); ++i){
-            if(i!=idx){ 
-                swap(nums[i], nums[idx]);
-            }
-            
-            getAllPossiblePermute(allPermute, nums, idx+1);
-            
-            if(i!=idx){ // restore previous array while backtracking
-                swap(nums[i], nums[idx]);
-            }
+        for(int i=idx;i<nums.size();i++)
+        {
+            swap(nums[idx],nums[i]);
+            solve(idx+1,nums);
+            swap(nums[idx],nums[i]);
         }
     }
     
-    vector<vector<int>> permute(vector<int>& nums) {
-        int size = nums.size();
-        if(size == 1)return {nums};
+    vector<vector<int>> permute(vector<int>& nums) 
+    {
+        solve(0,nums);
+        return ans;
         
-        vector<vector<int>> allPermute;
-        int startIndex = 0;
-        
-        getAllPossiblePermute(allPermute, nums, startIndex );
-        
-        return allPermute;
     }
 };
