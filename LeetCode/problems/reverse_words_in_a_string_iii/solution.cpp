@@ -13,9 +13,9 @@ public:
                     end--;
                 }
             }
-            else if(i==0 || s[i-1]==' '){
+            else if(i==0 || s[i-1]==' ')
                 start=i;
-            }
+            
         }
         return s;  
     }
