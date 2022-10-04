@@ -15,12 +15,12 @@ public:
     {
         if(root==NULL)
             return false;
-        targetSum=targetSum-root->val;
+        
+        targetSum-=root->val;
         
         if(targetSum==0 and !root->left and !root->right)
             return true;
         
-        return hasPathSum(root->right,targetSum) or hasPathSum(root->left,targetSum);
-        
+        return hasPathSum(root->left, targetSum) or hasPathSum(root->right, targetSum);
     }
 };
