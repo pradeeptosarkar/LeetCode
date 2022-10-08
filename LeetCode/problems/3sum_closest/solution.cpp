@@ -2,37 +2,41 @@ class Solution {
 public:
     int threeSumClosest(vector<int>& nums, int target) 
     {
-        sort (nums.begin(), nums.end());
+        int ans=INT_MIN;
         int i,j,k;
-        int minDiff;
-        int sum;
-        int finalSum;
-        int diff;
+        int minDiff, tempDiff, tempSum;
+        sort(nums.begin(), nums.end());
         
-        for (i=0; i<nums.size()-2; i++) {
-            
+        for(i=0;i<nums.size()-2;i++)
+        {
             j=i+1;
             k=nums.size()-1;
-            if (i==0) {
-                
-                finalSum=nums[i]+nums[j]+nums[k];
-                minDiff=abs(target-finalSum);
+            if(i==0)
+            {
+                ans=nums[i]+nums[j]+nums[k];
+                minDiff=abs(target-ans);
             }
-            while (j<k) {
-                sum=nums[i]+nums[j]+nums[k];
-                diff = abs(target-sum);
-                if (sum==target) return sum;
-                else if (sum > target) {     
-                    k--;                             
-                } else if (sum < target) {
+            
+            while(j<k)
+            {
+                tempSum=nums[i]+nums[j]+nums[k];
+                tempDiff=abs(target-tempSum);
+                
+                if(tempSum==target)
+                    return tempSum;
+                else if(tempSum>target)
+                    k--;
+                else if(tempSum<target)
                     j++;
-                } else if (target == sum ) {
-                    return sum;
+                
+                if(tempDiff<minDiff)
+                {
+                    minDiff=tempDiff;
+                    ans=tempSum;
                 }
-                if (diff<minDiff) { minDiff=diff; finalSum=sum;}
             }
         }
-
-        return finalSum;
+        
+        return ans;
     }
 };
