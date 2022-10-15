@@ -2,59 +2,39 @@ class Solution {
 public:
     int compress(vector<char>& chars) 
     {
-        int pos = 0, count = 1;
-        char last = chars[pos];
-        pos++;
-        
-        while(pos < chars.size()){
-            if(chars[pos] == last){
-                count++;
-            }
-            // cout << "pos: " << pos << ", count: " << count << endl;
+        string s;
+        int c=1,i;
+        for(i=1;i<chars.size();i++)
+        {
+            if(chars[i]==chars[i-1])
+                c++;
             
-            //meet different char, or go to the end
-            if(chars[pos] != last || pos == chars.size()-1){
-                if(count > 1){
-                    //remove redundant char
-                    //the last char is not inclusive
-                    chars.erase(chars.begin()+pos-count+1, chars.begin()+pos);
-                    // cout << "last? " << (pos-count+1 == chars.size()-1) << endl;
-                    // cout << "[" << pos-count+1 << ", " << pos << "] " << string(chars.begin(), chars.end());
-               
-                    //always insert at same position
-                    //12: insert 2 and then insert 1 before 2
-                    int insert_pos = pos-count+1;
-                    /*
-                    if we are at the end and we are dealing with this char(not previous), 
-                    then we need to insert at last
-                    */
-                    if((pos-count+1 == chars.size()-1) && chars[pos] == last)
-                        insert_pos++;
-                    // cout << ", insert_pos: " << insert_pos;
-                    
-                    for(int count_tmp = count; count_tmp > 0; count_tmp /= 10){
-                        /*
-                        if not last, we are at the char different from last
-                        if is last, we are at the char same as last
-                        so need to add 1 for last
-                        */
-                        /*
-                        after insert a number, move to next, so add i
-                        */
-                        chars.insert(chars.begin()+insert_pos, '0'+count_tmp%10);
-                        //skip the inserted char
-                        pos++;
-                    }
-                    // cout << ", " << string(chars.begin(), chars.end()) << endl;
-                    //skip count-1 char
-                    pos -= (count-1);
-                    // pos -= (count-1);
-                }
-                count = 1;
-                last = chars[pos];
+            else if(chars[i]!=chars[i-1] && c==1)
+                s+=chars[i-1];
+            
+            else
+            {
+                s+=chars[i-1];
+                s+=to_string(c);
+                c=1;
             }
-            pos++;
         }
-        return chars.size();
+        
+        if(c==1)
+            s+=chars[i-1];
+        
+        else
+            s+=chars[i-1]+to_string(c);
+        
+        for(int i=0;i<s.length();i++)
+            chars[i]=s[i];
+        
+        
+        vector<char>::iterator it;
+        vector<char>::iterator ty;
+        it=chars.begin()+s.length();
+        ty=chars.begin()+chars.size();
+        chars.erase(it,ty);
+        return s.length();
     }
 };
