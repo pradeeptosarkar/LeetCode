@@ -1,10 +1,3 @@
-/*lass Solution {
-public:
-    string countAndSay(int n) {
-        
-    }
-};*/
-
 class Solution {
 
 public:
