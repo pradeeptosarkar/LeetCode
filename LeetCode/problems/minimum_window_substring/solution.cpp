@@ -1,6 +1,7 @@
 class Solution {
 public:
-    string minWindow(string s, string t) {
+    string minWindow(string s, string t) 
+    {
         unordered_map<char,int> m;
         for(auto c:t) 
             m[c]++;
