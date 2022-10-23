@@ -2,19 +2,31 @@ class Solution {
 public:
     vector<int> findErrorNums(vector<int>& nums) 
     {
-        unordered_map<int,int> mp;
-    vector<int> ans;
-    for(int i=0;i<nums.size();i++){
-        mp[nums[i]]++;
-    }
-    for(auto &it : mp){
-      if(it.second == 2)
-          ans.push_back(it.first);
-    }
-    for(int i=1;i<=nums.size();i++){
-      if(mp[i]==0)
-          ans.push_back(i);
-    }   
-    return ans;
+        vector<int> ans;
+        int n = nums.size();
+        int sum = (n*(n+1))/2;
+        int s=0;
+        
+        for(int i = 0;i<n;i++)
+            s = s + nums[i];
+        
+        int duplicate = 0;
+        for(int i = 0;i<n;i++)
+        {
+            if(nums[abs(nums[i]) - 1] > 0)
+                nums[abs(nums[i]) - 1] = -nums[abs(nums[i]) - 1];
+            
+            else
+            {
+                duplicate = abs(nums[i]);
+                break;
+            }
+        }
+        s = s - duplicate;
+        int missed = sum - s;
+        ans.push_back(duplicate);
+        ans.push_back(missed);
+        return ans;
+        
     }
 };
