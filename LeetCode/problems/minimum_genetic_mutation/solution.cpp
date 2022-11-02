@@ -1,6 +1,7 @@
 class Solution {
 public:
-    int minMutation(string start, string end, vector<string>& bank) {
+    int minMutation(string start, string end, vector<string>& bank) 
+    {
         unordered_set<string> s;
         for(auto b : bank) s.insert(b);
         string acgt = "ACGT";
