@@ -1,52 +1,62 @@
 class Trie {
-    struct TrieNode {
-        char end = '^';
-        TrieNode* next[26] = {nullptr};
+    
+    struct TrieNode
+    {
+        char end='^';
+        vector<TrieNode*> next{26,nullptr};
     };
+    
     TrieNode* root;
+    
 public:
-    Trie() {
-        root = new TrieNode();
-    }
-    virtual ~Trie() {
-        delete root;
+    Trie() 
+    {
+        root = new TrieNode();   
     }
     
-    void insert(string word) {
+    void insert(string word) 
+    {
+        TrieNode* node=root;
         
-        TrieNode* node = root;
-        for (auto& c : word) {
-            if (node->next[c-'a'] == nullptr) {
-                node->next[c-'a'] = new TrieNode();
-            }
-            node = node->next[c-'a'];
+        for(char& c:word)
+        {
+            if(node->next[c-'a']==nullptr)
+                node->next[c-'a']= new TrieNode();
+            
+            node=node->next[c-'a'];
         }
-        node->end = '*';
+        node->end='*';
     }
     
-    bool search(string word) {
+    bool search(string word) 
+    {
+        TrieNode* node=root;
         
-        TrieNode* node = root;
-        for (auto& c : word) {
-            if (node->next[c-'a'] == nullptr) {
+        for(auto& c:word)
+        {
+            if(node->next[c-'a']==nullptr)
                 return false;
-            }
-            node = node->next[c-'a'];
+            
+            node=node->next[c-'a'];
         }
-        if (node->end != '*') {
+        
+        if(node->end!='*')
             return false;
-        }
+        
         return true;
+        
     }
     
-    bool startsWith(string prefix) {
+    bool startsWith(string prefix) 
+    {
+        TrieNode* node=root;
         
-        TrieNode* node = root;
-        for (auto& c : prefix) {
-            if (node->next[c-'a'] == nullptr) {
+        for(char&c:prefix)
+        {
+            if(node->next[c-'a']==nullptr)
                 return false;
-            }
-            node = node->next[c-'a'];
+            
+            node=node->next[c-'a'];
         }
         return true;
     }
