@@ -25,7 +25,5 @@ public:
             stk.pop();
         }
         return ans;
-        
-        
     }
 };
