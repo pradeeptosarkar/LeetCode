@@ -18,27 +18,19 @@ public:
         if(!root)
             return ans;
         
-        
         stack<TreeNode*> stk;
-        
         stk.push(root);
-        
-        TreeNode* cur;
+        TreeNode* curr;
         
         while(!stk.empty())
         {
-            cur=stk.top();
+            curr=stk.top();
             stk.pop();
+            ans.push_back(curr->val);
             
-            ans.emplace_back(cur->val);
-            
-            if(cur->right)
-                stk.push(cur->right);
-            
-            if(cur->left)
-                stk.push(cur->left);
+            if(curr->right!=NULL) stk.push(curr->right);
+            if(curr->left!=NULL) stk.push(curr->left);
         }
-        
         return ans;
     }
 };
