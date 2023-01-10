@@ -11,42 +11,38 @@
  */
 class Solution {
 public:
-    bool isSameTree(TreeNode* p, TreeNode* q) {
-        // Stacks to traverse trees iteratively starting from roots
-        stack<TreeNode*> p_cand({p}), q_cand({q});
+    bool isSameTree(TreeNode* p, TreeNode* q) 
+    {
+        TreeNode* a=p;
+        TreeNode* b=q;
         
-        // Create pointers to access nodes at top of stacks
-        TreeNode *a, *b;
+        stack<TreeNode*> stk1({a}), stk2({b});
         
-        // Loop while there are nodes in the stack 
-        while(!p_cand.empty() && !q_cand.empty()) {
-            // Get nodes from top of stack
-            a = p_cand.top();
-            b = q_cand.top();
+        while(!stk1.empty() or !stk2.empty())
+        {
+            a=stk1.top();
+            b=stk2.top();
             
-            // If both nodes are nullptr, do nothing
-            if(a == nullptr && b == nullptr)
+            if(a==NULL and b==NULL)
                 ;
-            // If one node is nullptr and not the other, the trees are dissimilar
-            else if(a == nullptr || b == nullptr)
+            else if(a==NULL or b==NULL)
                 return false;
-            // If node values are not the same, the trees are dissimilar
-            else if(a->val != b->val)
+            else if(a->val!=b->val)
                 return false;
-
-            // Pop latest node off stack
-            p_cand.pop();
-            q_cand.pop();
-
-            // Push children nodes from tree as long as nodes are not nullptr
-            if(a != nullptr) {
-                p_cand.push(a->left);
-                p_cand.push(a->right);
+            
+            stk1.pop();
+            stk2.pop();
+            
+            if(a!=NULL)
+            {
+                stk1.push(a->left);
+                stk1.push(a->right);
             }
             
-            if(b != nullptr) {
-                q_cand.push(b->left);
-                q_cand.push(b->right);
+            if(b!=NULL)
+            {
+                stk2.push(b->left);
+                stk2.push(b->right);
             }
         }
         
