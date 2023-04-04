@@ -2,17 +2,15 @@ class Solution {
 public:
     int partitionString(string s) 
     {
-        vector<int> pos(26);
-        int ans=0, lastIdx=0;
+        int ans=0;
+        int latest=0;
+        unordered_map<int,int> mp(26);
         
         for(int i=0;i<s.size();i++)
         {
-            if(pos[s[i]-'a']>=lastIdx)
-            {
-                ans++;
-                lastIdx=i+1;
-            }
-            pos[s[i]-'a']=i+1;
+            if(mp[s[i]-'a']>=latest)
+                ans++, latest=i+1;
+            mp[s[i]-'a']=i+1;
         }
         return ans;
     }
