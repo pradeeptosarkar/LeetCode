@@ -2,35 +2,11 @@ class Solution {
 public:
     string reverseWords(string s) 
     {
-        string ans="";
-        string word = "";
+        stringstream ss(s);
+        string word, ans;
+        while(ss >> word)
+            ans = word + " " + ans;
         
-        for (auto x : s)
-        {
-            if (x == ' ')
-            {
-                if(word!="")
-                {
-                    if(ans=="")
-                        ans=word;
-                    
-                     else
-                        ans=word+" "+ ans;                
-                }
-                word = "";
-            }
-            else 
-                word = word + x;
-            
-        }
-            if(word!="")
-            {
-                    if(ans=="")
-                        ans=word;
-                    else
-                        ans=word+" "+ ans;
-                    
-            }
-         return ans;
+        return ans.substr(0, ans.size()-1);
     }
 };
