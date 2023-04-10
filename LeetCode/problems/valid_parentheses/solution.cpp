@@ -1,26 +1,19 @@
 class Solution {
 public:
-    bool isValid(string s) 
-    {
-        stack<char> seen;
-        map<char,char> closed{{')', '('}, {'}', '{'}, {']', '['},};
-        
-        for(auto c: s)
+    bool isValid(string s) {
+        stack<char> st;
+        for(auto i:s)
         {
-            if(closed.find(c)!=closed.end())
-            {
-                char top = seen.empty() ? '_':seen.top();
-                
-                if(top!=closed[c])
-                    return false;
-                
-                seen.pop();
-            }
-            
+            if(i=='(' or i=='{' or i=='[')
+            st.push(i);
             else
-                seen.push(c);
+            {
+                if(st.empty() or (st.top()=='(' and i!=')') or (st.top()=='{' and i!='}') or (st.top()=='[' and i!=']')) 
+                    return false;
+                st.pop();
+            }
         }
         
-        return seen.empty();
+        return st.empty();
     }
 };
