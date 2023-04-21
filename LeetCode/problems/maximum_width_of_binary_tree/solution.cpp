@@ -1,38 +1,35 @@
-//::Pradeepto Sarkar LC662 27/02/2022:://
-
-class Solution {
+class Solution 
+{
 public:
     int widthOfBinaryTree(TreeNode* root) 
     {
-        if(!root)
+        if(root==NULL)
             return 0;
         
-        int ans=INT_MIN;
-        queue<pair<TreeNode*,int>> q;
-        
-        q.push({root,0});
+        int ans=0;
+        queue<pair<TreeNode*, int>>q;
+        q.push({root, 0});
         
         while(!q.empty())
         {
-            int n=q.size();
+            int levelSize=q.size();
             int start=q.front().second;
             int end=q.back().second;
+            
             ans=max(ans, end-start+1);
             
-            while(n--)
+            for(int i=0;i<levelSize;i++)
             {
-                auto p=q.front();
-                unsigned id=p.second-start;
+                TreeNode* tempNode=q.front().first;
+                int nodeIndex=q.front().second;
                 q.pop();
                 
-                if(p.first->left)
-                    q.push({p.first->left, 2*id+1});
-                    
-                if(p.first->right)
-                    q.push({p.first->right, 2*id+2});
+                if(tempNode->left!=NULL)
+                    q.push({tempNode->left, (long long)2*nodeIndex+1});
+                if(tempNode->right!=NULL)
+                    q.push({tempNode->right, (long long)2*nodeIndex+2});  
             }
         }
-        
         return ans;
     }
-};
+};  
