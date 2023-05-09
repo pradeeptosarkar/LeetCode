@@ -9,7 +9,6 @@ public:
         int size=bottom*right;
         bottom-=1;
         right-=1;
-        
         vector<int> ans;
         int k=1;
         
