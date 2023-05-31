@@ -1,11 +1,10 @@
 class Solution {
 public:
-    vector<vector<int>> generate(int n) 
+    vector<vector<int>> generate(int numRows) 
     {
-        vector<vector<int>>ans;
-        ans.push_back({1});
+        vector<vector<int>> ans;
         
-        for(int i=1;i<n;i++)
+        for(int i=0;i<numRows;i++)
         {
             vector<int> temp;
             for(int j=0;j<=i;j++)
@@ -18,6 +17,5 @@ public:
             ans.push_back(temp);
         }
         return ans;
-        
     }
 };
