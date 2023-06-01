@@ -1,29 +1,19 @@
 class Solution {
 public:
-    
-    void swap(vector<int>& nums, int i, int j)
+    void sortColors(vector<int>& nums) 
     {
-        int temp=nums[i];
-        nums[i]=nums[j];
-        nums[j]=temp;
-    }
-    
-    void sortColors(vector<int>& nums) {
-        int i=0;
-        int j=nums.size()-1;
-        int k=j;
-        while(i<=j)
+        int low=0, mid=0, high=nums.size()-1;
+        
+        while(mid<=high)
         {
-            int curr=nums[j];
+            if(nums[mid]==0)
+                {swap(nums[mid],nums[low]); low++, mid++;}
             
-            if(curr==0)
-                swap(nums, i++, j);
+            else if(nums[mid]==1)
+                mid++;
             
-            else if(curr==2)
-                swap(nums, j--, k--);
-            
-            else
-                j--;
+            else if(nums[mid]==2)
+                {swap(nums[mid], nums[high]); high--;}
         }
     }
 };
