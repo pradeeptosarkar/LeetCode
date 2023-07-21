@@ -1,6 +1,7 @@
 class Solution {
 public:
-    int findNumberOfLIS(vector<int>& nums) {
+    int findNumberOfLIS(vector<int>& nums) 
+    {
         vector <int> len(nums.size(), 1);
         vector <int> count(nums.size(), 1);
 
