@@ -1,32 +1,30 @@
 class Solution {
 public:
-    vector<vector<int>> combine(int n, int k) 
-    {
-        vector<bool> used(n,0);
-        vector<vector<int>> ans;
-        vector<int> temp;
-        solve(1,k,n,used,ans,temp);
-        return ans;        
-    }
     
-    void solve(int idx,int k,int n,vector<bool>&used,vector<vector<int>>&ans, vector<int>&temp)
+    vector<vector<int>> ans;
+    
+    void solve(int i, int n, int k, vector<int>& temp)
     {
-        if(temp.size()==k)
+        if(k==0)
         {
             ans.push_back(temp);
             return;
         }
         
-        for(int i=idx;i<=n;i++)
-        {
-            if(!used[i])
-            {
-                used[i]=1;
-                temp.push_back(i);
-                solve(i+1,k,n,used,ans,temp);
-                used[i]=0;
-                temp.pop_back();
-            }
-        }
+        if(i==n)
+            return;
+        
+        solve(i+1,n,k,temp);
+        temp.push_back(i+1);
+        solve(i+1,n,k-1,temp);
+        temp.pop_back();
+    }
+    
+    vector<vector<int>> combine(int n, int k) 
+    {
+        vector<int> temp;
+        
+        solve(0,n,k,temp);
+        return ans;
     }
 };
