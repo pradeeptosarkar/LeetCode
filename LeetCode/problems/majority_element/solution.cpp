@@ -1,10 +1,35 @@
-//::Pradeepto Sarkar LC169 26/02/2022:://
-
 class Solution {
 public:
-    int majorityElement(vector<int>& nums) {
+    int majorityElement(vector<int>& nums) 
+    {
+        int temp;
+        int cnt=0;
         
-        nth_element(nums.begin(), nums.begin()+(nums.size()/2), nums.end());
-	    return *(nums.begin() + (nums.size()/2));
+        for(int i=0;i<nums.size();i++)
+        {
+            if(cnt==0)
+            {
+                temp=nums[i];
+                cnt+=1;
+            }
+                
+            else if(temp==nums[i])
+                cnt++;
+            
+            else
+                cnt--;
+        }
+        
+        int ans=0;
+        
+        for(int i=0;i<nums.size();i++)
+            if(temp==nums[i])
+                ans++;
+        
+        if(ans>(nums.size()/2))
+            return temp;
+        
+        return -1;
+        
     }
 };
