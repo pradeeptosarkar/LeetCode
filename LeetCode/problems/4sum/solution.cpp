@@ -2,47 +2,52 @@ class Solution {
 public:
     vector<vector<int>> fourSum(vector<int>& nums, int target) 
     {
-        sort(nums.begin(),nums.end());
         int n=nums.size();
         vector<vector<int>> ans;
-        
-        if(n<4)
-            return {};
+        sort(nums.begin(), nums.end());
         
         for(int i=0;i<n;i++)
         {
+            if(i>0 and nums[i]==nums[i-1])
+                continue;
+            
             for(int j=i+1;j<n;j++)
             {
-                int front=j+1, back=n-1, y=nums[i]+nums[j], x=target-y;
+                if(j>i+1 and nums[j]==nums[j-1])
+                    continue;
                 
-                while(front<back)
+                int k=j+1;
+                int l=n-1;
+                
+                while(k<l)
                 {
-                    if(nums[front]+nums[back]<x)
-                        front++;
-                    else if(nums[front]+nums[back]>x)
-                        back--;
-                    
-                    else
-                    {
-                        ans.push_back({nums[i],nums[j],nums[front],nums[back]});
-                        
-                        while(front<n-1 and nums[front]==nums[front+1])
-                        {front++;}
-                        while(back>0 and nums[back]==nums[back-1])
-                        {back--;}
-                        front++;
-                        back--;
-                    }
-                    
-                }
-                while(j<n-1 and nums[j]==nums[j+1])
-                {j++;}
-            }
-            while(i<n-1 and nums[i]==nums[i+1])
-            {i++;}
+                    long long sum=nums[i];
+                sum+=nums[j];
+                sum+=nums[k];
+                sum+=nums[l];
                 
+                if(sum==target)
+                {
+                    vector<int> temp = {nums[i],nums[j],nums[k],nums[l]};
+                    ans.push_back(temp);
+                    k++;l--;
+                    
+                    while(k<l and nums[k]==nums[k-1])
+                        k++;
+                    while(k<l and nums[l]==nums[l+1])
+                        l--;
+                }
+                                
+                
+                else if(sum<target)
+                    k++;
+                
+                else
+                    l--;
             }
-        return ans;
+            }
         }
         
-    };
+        return ans;        
+    }
+};
