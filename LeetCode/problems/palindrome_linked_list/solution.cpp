@@ -1,46 +1,59 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
 class Solution {
 public:
     
-    ListNode * reverse(ListNode *head)
+    ListNode *reverseList(ListNode* curr)
     {
-        ListNode *prev=NULL;
-        ListNode *temp;
+        ListNode* pre=NULL;
+        ListNode* nex=NULL;
         
-        while(head!=NULL)
+        while(curr!=NULL)
         {
-            temp=head->next;
-            head->next=prev;
-            prev=head;
-            head=temp;
+            nex=curr->next;
+            curr->next=pre;
+            pre=curr;
+            curr=nex;
         }
-        return prev;
+        
+        return pre;
     }
     
     bool isPalindrome(ListNode* head) 
     {
-        ListNode *slow=head, *fast=head;
+        if(head==NULL or head->next==NULL)
+            return true;
         
-        while(fast!=NULL and fast->next!=NULL)
+        ListNode *fast=head;
+        ListNode *slow=head;
+        
+        while(fast->next!=NULL and fast->next->next!=NULL)
         {
-            slow=slow->next;
             fast=fast->next->next;
+            slow=slow->next;
         }
         
-        if(fast!=NULL)
-            slow=slow->next;
-        
-        slow=reverse(slow);
-        fast=head;
+        slow->next = reverseList(slow->next);
+        slow=slow->next;
+        ListNode *newNode=head;
         
         while(slow!=NULL)
         {
-            if(slow->val!=fast->val)
+            if(newNode->val!=slow->val)
                 return false;
-            fast=fast->next;
+            
             slow=slow->next;
+            newNode=newNode->next;
         }
         
-        return true;    
+        return true;
     }
-    
 };
