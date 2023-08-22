@@ -5,49 +5,33 @@
  *     ListNode *next;
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
- 
+ */
 class Solution {
 public:
-    ListNode *detectCycle(ListNode *head) {
-        
-    }
-};
-*/
-class Solution {
-
-public:
-
-    ListNode *detectCycle(ListNode *head) {
-
-        if(!head) return NULL;
-
-        ListNode *slow=head,*fast=head;
-
-        do{
-            slow = slow->next;
-
-            if(!slow) break;
-
-            fast= fast->next;
-
-            if(!fast) break;
-
-            fast = fast->next;
-
-            if(!fast) break;            
-
-        }while(slow!=fast);
-
-        if(!slow or !fast)
-
+    ListNode *detectCycle(ListNode *head) 
+    {
+        if(!head)
             return NULL;
-
-        fast = head;
-
-        while(fast !=slow)
-
-            fast=fast->next, slow=slow->next;
-
-        return fast;
+        
+        ListNode *fast=head, *slow=head, *temp=head;
+        
+        while(fast->next!=NULL and fast->next->next!=NULL)
+        {
+            fast=fast->next->next;
+            slow=slow->next;
+            
+            if(fast==slow)
+            {
+                while(slow!=temp)
+                {
+                    slow=slow->next;
+                    temp=temp->next;
+                }
+                
+                return slow;
+            }
+        }
+        
+        return NULL;
     }
 };
