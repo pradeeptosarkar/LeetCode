@@ -14,7 +14,7 @@ public:
     {
         ListNode *prev=NULL;
         ListNode *curr=head;
-        ListNode *nxtn;
+        ListNode *nxtn=NULL;
         
         while(curr!=NULL)
         {
