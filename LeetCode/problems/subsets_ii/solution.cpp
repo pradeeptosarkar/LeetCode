@@ -1,22 +1,25 @@
 class Solution {
 public:
-    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
-        unordered_map<int, int> countOfNumber;
-        for (int n : nums){
-            countOfNumber[n]++;
-        }
-        vector<vector<int>> now = {{}};
-        vector<vector<int>> next = {{}};
+    
+    void solve(int index, vector<int>& temp, vector<vector<int>>& ans, vector<int>& nums)
+    {
+        ans.push_back(temp);
         
-        for(const auto& p : countOfNumber) {
-            now = next;
-            for(vector<int> v : now) {
-                for(int i = 0; i < p.second; i++) {
-                    v.push_back(p.first);
-                    next.push_back(v);
-                }
-            }
+        for(int i=index; i<nums.size(); i++)
+        {
+            if(i!=index and nums[i]==nums[i-1])
+                continue;
+            temp.push_back(nums[i]);
+            solve(i+1, temp, ans, nums);
+            temp.pop_back();
         }
-        return next;
+    }
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) 
+    {
+        vector<vector<int>> ans;
+        vector<int> temp;
+        sort(nums.begin(), nums.end());
+        solve(0, temp, ans, nums);
+        return ans;
     }
 };
