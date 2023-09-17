@@ -1,42 +1,35 @@
 class Solution {
 public:
-    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) 
+    
+    double findMedianSortedArrays(vector<int>& a, vector<int>& b) 
     {
-        if ((nums1.size() + nums2.size()) % 2 == 1) {
-            return findKthInTwoSortedArrays(nums1, nums2, (nums1.size() + nums2.size()) / 2 + 1);
-        } else {
-            return (findKthInTwoSortedArrays(nums1, nums2, (nums1.size() + nums2.size()) / 2) +
-                    findKthInTwoSortedArrays(nums1, nums2, (nums1.size() + nums2.size()) / 2 + 1)) / 2.0;
+    int n1 = a.size(), n2 = b.size();
+    if (n1 > n2) return findMedianSortedArrays(b, a);
+
+    int n = n1 + n2; 
+    int left = (n1 + n2 + 1) / 2; 
+    
+    int low = 0, high = n1;
+    while (low <= high) {
+        int mid1 = (low + high) >> 1;
+        int mid2 = left - mid1;
+        
+        int l1 = INT_MIN, l2 = INT_MIN;
+        int r1 = INT_MAX, r2 = INT_MAX;
+        if (mid1 < n1) r1 = a[mid1];
+        if (mid2 < n2) r2 = b[mid2];
+        if (mid1 - 1 >= 0) l1 = a[mid1 - 1];
+        if (mid2 - 1 >= 0) l2 = b[mid2 - 1];
+
+        if (l1 <= r2 && l2 <= r1) {
+            if (n % 2 == 1) return max(l1, l2);
+            else return ((double)(max(l1, l2) + min(r1, r2))) / 2.0;
         }
+
+        
+        else if (l1 > r2) high = mid1 - 1;
+        else low = mid1 + 1;
     }
-
-    int findKthInTwoSortedArrays(const vector<int>& A, const vector<int>& B,
-                                 int k) {
-        const int m = A.size();
-        const int n = B.size();
-
-        // Make sure m is the smaller one.
-        if (m > n) {
-            return findKthInTwoSortedArrays(B, A, k);
-        }
-
-        int left = 0;
-        int right = m;
-        // Find a partition of A and B
-        // where min left s.t. A[left] >= B[k - 1 - left]. Thus A[left] is the (k+1)-th or above element.
-        while (left < right) {
-            int mid = left + (right - left) / 2;
-            if (0 <= k - 1 - mid && k - 1 - mid < n && A[mid] >= B[k - 1 - mid]) {
-                right = mid;
-            } else {
-                left = mid + 1;
-            }
-        }
-
-        int Ai_minus_1 = left - 1 >= 0 ? A[left - 1] : numeric_limits<int>::min();
-        int Bj = k - 1 - left >= 0 ? B[k - 1 - left] : numeric_limits<int>::min();
-
-        // kth element would be A[left - 1] or B[k - 1 - left].
-        return max(Ai_minus_1, Bj);
+    return 0;
     }
 };
