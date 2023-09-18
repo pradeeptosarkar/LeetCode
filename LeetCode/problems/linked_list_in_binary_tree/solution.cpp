@@ -19,47 +19,49 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution 
-{
-    ListNode* head;
-    unordered_map<int64_t, ListNode*> prev_pointers;
+class Solution {
 public:
-    bool isSubPath(ListNode* head, TreeNode* root) {
-        this->head = head;
+    
+    bool help(ListNode* head, TreeNode* root)
+    {
+        if(!head) return true;
+        if(!root) return false;
         
-        // Build KMP automaton.
-        auto current_pointer = head->next;
-        ListNode* current_prev = head;
-        if (current_pointer != nullptr) {
-            prev_pointers[(int64_t)(current_pointer)] = current_prev;
-        
-            while (current_pointer->next != nullptr) {
-                while (current_prev != head && current_prev->val != current_pointer->val)
-                    current_prev = prev_pointers[(int64_t)(current_prev)];
-                current_prev = (current_prev->val == current_pointer->val) ? current_prev->next : current_prev;
-                prev_pointers[(int64_t)(current_pointer->next)] = current_prev;
-                current_pointer = current_pointer->next;
-            }
-        }
-        
-        // Search using automaton on tree.
-        return search(head, root);
+        if(head->val==root->val)
+            return help(head->next , root->left ) || help(head->next , root->right );
+        else
+            return false ;
     }
     
-    bool search(ListNode* list_node, TreeNode* tree_node) 
+    bool isSubPath(ListNode* head, TreeNode* root) 
     {
-        if (list_node == nullptr)
-            return true;
-        if (tree_node == nullptr)
-            return false;
+        if(!head) return true;
+        if(!root) return false;
         
-        bool found = false;
-        while (list_node != head && list_node->val != tree_node->val)
-            list_node = prev_pointers[(int64_t)(list_node)];
-        list_node = (list_node->val == tree_node->val) ? list_node->next : list_node;
-        found |= (search(list_node, tree_node->left));
-        found |= (search(list_node, tree_node->right));
-
-        return found;
+        bool right,left;
+        bool ans=false;
+        
+        if(head->val==root->val)
+        {
+            ans |= help(head,root);
+            
+            //right=isSubPath(head->next,root->right);
+            //left=isSubPath(head->next,root->left);
+            
+            //return left or right;
+        }
+        
+        //else
+        //{
+            //right=isSubPath(head,root->right);
+            //left=isSubPath(head,root->left);
+            
+            //return left or right;
+        //}
+        
+        ans|= isSubPath(head, root->left) or isSubPath(head, root->right);
+        return ans;
+        
+        //return right or left;
     }
 };
