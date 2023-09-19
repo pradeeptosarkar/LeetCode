@@ -1,27 +1,28 @@
 class MedianFinder {
-    
-private:
-    priority_queue<int> a;
-    priority_queue<int> b;
-    
 public:
-    MedianFinder() { }
+    
+    priority_queue<int> a,b;
+    
+    MedianFinder() {
+        
+    }
     
     void addNum(int num) 
     {
-        a.push(-num);
+        a.push(num);
         b.push(-a.top());
         a.pop();
         
-        if(b.size()>a.size())
-            a.push(-b.top()), b.pop();
+        if(a.size()<b.size())
+        {
+            a.push(-b.top());
+            b.pop();
+        }
     }
     
     double findMedian() 
     {
-        if(a.size()==b.size())
-            return(b.top()-a.top())/2.00;
-        return -a.top();
+        return a.size()>b.size() ? a.top() : (a.top()-b.top())/2.0;
     }
 };
 
