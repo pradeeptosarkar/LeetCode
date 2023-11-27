@@ -2,31 +2,31 @@ class Solution {
 public:
     int garbageCollection(vector<string>& garbage, vector<int>& travel) 
     {
-        int m=0,p=0,g=0;
-        int mm=-1,pm=-1,gm=-1;
+        vector<int> prefixSum(travel.size()+1, 0);
+        prefixSum[1]=travel[0];
+        
+        for(int i=1;i<travel.size();i++)
+            prefixSum[i+1]=prefixSum[i]+travel[i];
+        
+        unordered_map<char,int> lastPos;
+        unordered_map<char,int> count;
         
         for(int i=0;i<garbage.size();i++)
         {
-            string sr=garbage[i];
-            for(int j=0;j<sr.size();j++)
+            for(int j=0;j<garbage[i].size();j++)
             {
-                if(sr[j]=='M')
-                    m++, mm=i;
-                else if(sr[j]=='P')
-                    p++, pm=i;
-                else
-                    g++, gm=i;
+                lastPos[garbage[i][j]]=i;
+                count[garbage[i][j]]+=1;
             }
         }
         
+        vector<char> types = {'M', 'P', 'G'};
+        int ans=0;
         
-        for(int i=0;i<travel.size();i++)
-        {
-            if(i<mm) m+=travel[i];
-            if(i<pm) p+=travel[i];
-            if(i<gm) g+=travel[i];
-        }
+        for(auto c:types)
+            if(count[c])
+                ans+=count[c]+prefixSum[lastPos[c]];
         
-        return m+p+g;
+        return ans;
     }
 };
