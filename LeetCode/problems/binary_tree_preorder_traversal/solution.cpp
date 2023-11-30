@@ -20,17 +20,19 @@ public:
         
         stack<TreeNode*> stk;
         stk.push(root);
-        TreeNode* curr;
         
         while(!stk.empty())
         {
-            curr=stk.top();
+            TreeNode* node = stk.top();
             stk.pop();
-            ans.push_back(curr->val);
             
-            if(curr->right!=NULL) stk.push(curr->right);
-            if(curr->left!=NULL) stk.push(curr->left);
+            ans.push_back(node->val);
+            if(node->right)
+                stk.push(node->right);
+            if(node->left)
+                stk.push(node->left);
         }
+        
         return ans;
     }
 };
