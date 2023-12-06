@@ -2,20 +2,17 @@ class Solution {
 public:
     int totalMoney(int n) 
     {
-        int a=n/7;
-        int b=n%7;
+        int k = n / 7;
+        int F = 28;
+        int L = 28 + (k - 1) * 7;
+        int arithmeticSum = k * (F + L) / 2;
         
-        int ans;
-        if(a>=1)
-        ans=(a*(49+(7*a)))/2;
+        int monday = 1 + k;
+        int finalWeek = 0;
         
-        if(b==0)
-            return ans;
-        else
-        {
-            ans+=a*b;
-            ans+=(b*(b+1))/2;
-        }
-        return ans;
+        for (int day = 0; day < n % 7; day++) 
+            finalWeek += monday + day;
+        
+        return arithmeticSum + finalWeek;
     }
 };
