@@ -1,36 +1,25 @@
 class Solution {
 public:
-    int minCost(string s, vector<int>& cost) 
+    int minCost(string colors, vector<int>& neededTime) 
     {
-      
-        int ans=0;
-
-        int total=0,sum=0;
-
-        for(auto x:cost) total += x;
-
-        for(int i=0 ; i<s.size() ; i++)
-
+        int ans=0, total=0, tempMax=0, i=0, cost=0;
+        
+        for(i;i<colors.size();i++)
         {
-
-            int temp=s[i],maxval=0;
-
-            while(s[i]==temp)
-
+            char temp=colors[i];
+            tempMax=0;
+            
+            while(temp==colors[i])
             {
-
-                maxval = max(maxval,cost[i]);
-
+                total+=neededTime[i];
+                tempMax=max(tempMax,neededTime[i]);
                 i++;
-
             }
-
-            sum += maxval;
-
-            i--;    
-
+            
+            i--;
+            cost+=tempMax;
         }
-
-        return total-sum;  
+        
+        return total-cost;
     }
 };
