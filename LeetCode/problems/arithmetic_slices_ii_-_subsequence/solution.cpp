@@ -3,22 +3,31 @@ public:
     int numberOfArithmeticSlices(vector<int>& nums) 
     {
         int n = nums.size();
-        long long int ans = 0;
-        vector<map<long long int, int>> cnt(n);
-        
-        for (int i = 1; i < n; i++) 
+        int total_count = 0;
+
+        std::vector<std::unordered_map<int, int>> dp(n);
+
+        for (int i = 1; i < n; ++i) 
         {
-            for (int j = 0; j < i; j++) 
+            for (int j = 0; j < i; ++j) 
             {
-                long long delta = (long long)nums[i] - (long long)nums[j];
-                int sum = 0;
-                if (cnt[j].find(delta) != cnt[j].end()) 
-                    sum = cnt[j][delta];
-                
-                cnt[i][delta] += sum + 1;
-                ans += sum;
+                long long diff = (long long)(nums[i]) - nums[j]; 
+
+                if (diff > INT_MAX || diff < INT_MIN)
+                    continue; 
+
+                int diff_int = (long long)(diff);
+
+                dp[i][diff_int] += 1; 
+
+                if (dp[j].count(diff_int)) 
+                {
+                    dp[i][diff_int] += dp[j][diff_int];
+                    total_count += dp[j][diff_int];
+                }
             }
         }
-        return (int)ans;
+
+        return total_count;
     }
 };
