@@ -11,16 +11,13 @@
  */
 class Solution {
 public:
-    int rangeSumBST(TreeNode* root, int L, int R) {
-        int sumofRange(0);
-        stack<TreeNode*> stack;
-        stack.push(root);
-        while(!stack.empty()){
-            TreeNode* node = stack.top(); stack.pop();
-            if(node->val>=L && node->val<=R) sumofRange+=node->val;
-            if(node->val > L) {if(node->left) stack.push(node->left);}
-            if(node->val < R) {if(node->right) stack.push(node->right);}
-        }
-        return sumofRange;
+    int rangeSumBST(TreeNode* root, int low, int high) 
+    {
+        if(!root)
+            return 0;
+        
+        return (root->val>=low and root->val<=high ? root->val : 0) +
+            ((root->val>=low) ? rangeSumBST(root->left, low, high) : 0) +
+            ((root->val<=high) ? rangeSumBST(root->right, low, high) : 0);
     }
 };
