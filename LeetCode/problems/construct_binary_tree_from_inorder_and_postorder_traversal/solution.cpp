@@ -11,29 +11,31 @@
  */
 class Solution {
 public:
-    
-    TreeNode* solve(vector<int>& inorder, int a, int b, vector<int>& postorder, int c, int d)
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) 
     {
-        if(a>b or c>d)
-            return nullptr;
+        map<int,int> mp;
         
-        TreeNode* root = new TreeNode(postorder[d]);
+        for(int i=0;i<inorder.size();i++)
+            mp[inorder[i]]=i;
         
-        int partitionIndex=0;
-        
-        while(root->val!=inorder[partitionIndex])
-        {
-            partitionIndex++;
-        }
-        
-        root->left=solve(inorder,a,partitionIndex-1,postorder,c,c+partitionIndex-a-1);
-        root->right=solve(inorder,partitionIndex+1,b,postorder,c+partitionIndex-a,d-1);
+        TreeNode* root=buildNewTree(inorder, 0, inorder.size()-1, postorder, 0, postorder.size()-1, mp);
         
         return root;
     }
     
-    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) 
+    TreeNode* buildNewTree(vector<int> &inorder, int inStart, int inEnd, vector<int> &postorder, int postStart, int postEnd, map<int,int> &mp)
     {
-        return solve(inorder,0,inorder.size()-1,postorder,0,postorder.size()-1);        
+        if(postStart>postEnd or inStart>inEnd)
+            return NULL;
+        
+        TreeNode* root = new TreeNode(postorder[postEnd]);
+        
+        int inRoot=mp[root->val];
+        int leftNums=inRoot-inStart;
+        
+        root->left= buildNewTree(inorder, inStart, inRoot-1, postorder, postStart, postStart+leftNums-1, mp);
+        root->right= buildNewTree(inorder, inRoot+1, inEnd, postorder, postStart+leftNums, postEnd-1, mp);
+        
+        return root;
     }
 };
