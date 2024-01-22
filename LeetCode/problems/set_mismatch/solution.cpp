@@ -2,31 +2,18 @@ class Solution {
 public:
     vector<int> findErrorNums(vector<int>& nums) 
     {
-        vector<int> ans;
-        int n = nums.size();
-        int sum = (n*(n+1))/2;
-        int s=0;
+        int duplicate;
+
+    for (const int num : nums)
+      if (nums[abs(num) - 1] < 0)
+        duplicate = abs(num);
+      else
+        nums[abs(num) - 1] *= -1;
+
+    for (int i = 0; i < nums.size(); ++i)
+      if (nums[i] > 0)
+        return {duplicate, i + 1};
         
-        for(int i = 0;i<n;i++)
-            s = s + nums[i];
-        
-        int duplicate = 0;
-        for(int i = 0;i<n;i++)
-        {
-            if(nums[abs(nums[i]) - 1] > 0)
-                nums[abs(nums[i]) - 1] = -nums[abs(nums[i]) - 1];
-            
-            else
-            {
-                duplicate = abs(nums[i]);
-                break;
-            }
-        }
-        s = s - duplicate;
-        int missed = sum - s;
-        ans.push_back(duplicate);
-        ans.push_back(missed);
-        return ans;
-        
+        throw;
     }
 };
