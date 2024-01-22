@@ -12,20 +12,26 @@
 class Solution {
 public:
     
-    TreeNode* createBST(int l, int r, vector<int> &nums)
+    TreeNode* createBST(vector<int>&nums, int s, int e)
     {
-        if(l>r)
+        if(s>e)
             return NULL;
-        TreeNode* node = new TreeNode();
-        int mid(l+(r-l)/2);
-        node->val=nums[mid];
-        node->left=createBST(l,mid-1,nums);
-        node->right=createBST(mid+1,r,nums);
-        return node;
+        
+        int mid=s+(e-s)/2;
+        
+        TreeNode* root = new TreeNode(nums[mid]);
+        
+        root->left=createBST(nums,s,mid-1);
+        root->right=createBST(nums,mid+1,e);
+        
+        return root;
     }
     
     TreeNode* sortedArrayToBST(vector<int>& nums) 
     {
-        return createBST(0, nums.size()-1, nums);
+        int s=0;
+        int e=nums.size()-1;
+        
+        return createBST(nums, s, e);
     }
 };
