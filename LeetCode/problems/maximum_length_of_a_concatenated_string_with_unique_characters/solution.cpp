@@ -1,51 +1,52 @@
 class Solution {
 public:
     
-    bool checkUnique(string s)
+    bool check(string s)
     {
         if(s.length()>26)
             return false;
         
-        set<int> st;
+        vector<int> freq(26,0);
         
         for(auto i:s)
         {
-            if(st.find(i)!=st.end())
+            freq[i-'a']+=1;
+            
+            if(freq[i-'a']>1)
                 return false;
-            else
-                st.insert(i);
         }
+        
         return true;
     }
     
     int maxLength(vector<string>& arr) 
     {
         int ans=0;
-        vector<string> ansVec;
-        ansVec.push_back("");
+        vector<string> ansList;
+        
+        ansList.push_back("");
         
         for(auto i:arr)
         {
-            if(!checkUnique(i))
+            if(!check(i))
                 continue;
             
-            vector<string> tempVec;
-            string tempString;
+            vector<string> tempList;
             
-            for(auto temp:ansVec)
+            for(auto s:ansList)
             {
-                tempString=temp+i;
+                string temp=s+i;
                 
-                if(checkUnique(tempString))
+                if(check(temp))
                 {
-                    tempVec.push_back(tempString);
-                    if(tempString.size()>ans)
-                        ans=tempString.size();
+                    tempList.push_back(temp);
+                    ans=max(ans, static_cast<int>(temp.size()));
                 }
             }
-            ansVec.insert(ansVec.end(), tempVec.begin(), tempVec.end());
+            
+            ansList.insert(ansList.end(), tempList.begin(), tempList.end());
         }
-        return ans;
         
+        return ans;
     }
 };
