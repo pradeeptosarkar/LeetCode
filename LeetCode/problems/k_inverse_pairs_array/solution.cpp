@@ -1,27 +1,24 @@
 class Solution {
 public:
-    int mod=1e9+7;
-    int kInversePairs(int n, int K) 
+    int kInversePairs(int n, int k) 
     {
-        vector<vector<int>> dp(n+1,vector<int>(K+1,0));
-        dp[0][0]=0;
-        
-        for(int i=1;i<=K;i++)
-            dp[1][i]=0;
+        vector<vector<int>> dp(n+1, vector<int>(k+1));
         
         for(int i=1;i<=n;i++)
-            dp[i][0]=1;
-         
-        for(int i=2;i<=n;i++)
         {
-            for(int j=1;j<=K;j++)
+            for(int j=0;j<=k;j++)
             {
-                dp[i][j]=(dp[i-1][j]+dp[i][j-1])%mod;
+                if(j==0)
+                    dp[i][j]=1;
                 
-                if(j-i>=0)
-                    dp[i][j]=(dp[i][j]-dp[i-1][j-i]+mod)%mod;
-            }         
+                else
+                {
+                    for(int p=0;p<=min(j,i-1);p++)
+                        dp[i][j]=(dp[i][j]+dp[i-1][j-p])%1000000007;
+                }
+            }
         }
-        return dp[n][K];
+        
+        return dp[n][k];
     }
 };
