@@ -1,23 +1,22 @@
 class Solution {
 public:
-    vector<int> sequentialDigits(int low, int high) {
+    vector<int> sequentialDigits(int low, int high) 
+    {
         vector<int> ans;
-        int num=0;
+        string s="123456789";
         
-        for(int i=1;i<=9;i++)
+        for(int len=2;len<=s.length();len++)
         {
-            num=i;
-            
-            for(int j=i+1;j<=9;j++)
+            for(int idx=0;idx<=s.length()-len;idx++)
             {
-                num*=10;
-                num+=j;
+                string temp=s.substr(idx, len);
+                int tempString=stoi(temp);
                 
-                if(num>=low && num<=high)
-                    ans.push_back(num);
+                if(tempString>=low and tempString<=high)
+                    ans.push_back(tempString);
             }
         }
-        sort(ans.begin(),ans.end());
+        
         return ans;
     }
 };
