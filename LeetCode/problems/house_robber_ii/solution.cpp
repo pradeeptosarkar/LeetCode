@@ -1,18 +1,40 @@
 class Solution {
 public:
+    
+    int robSimple(vector<int>& nums) 
+    {
+        int n=nums.size();
+        
+        if(n==1)
+            return nums[0];
+        
+        int a=nums[0];
+        int b=max(nums[0],nums[1]);
+        
+        for(int i=2;i<n;i++)
+        {
+            int c=max(b, a+nums[i]);
+            a=b;
+            b=c;
+        }
+        
+        return b;
+    }
+    
     int rob(vector<int>& nums) 
     {
-        if (nums.size() <= 1) return nums.empty() ? 0 : nums[0];
-        return max(rob(nums, 0, nums.size() - 1), rob(nums, 1, nums.size()));
-    }
-    int rob(vector<int> &nums, int left, int right) {
-        if (right - left <= 1) return nums[left];
-        vector<int> dp(right, 0);
-        dp[left] = nums[left];
-        dp[left + 1] = max(nums[left], nums[left + 1]);
-        for (int i = left + 2; i < right; ++i) {
-            dp[i] = max(nums[i] + dp[i - 2], dp[i - 1]);
+        int n=nums.size();
+        if(n==1)
+            return nums[0];
+        
+        vector<int> arr1, arr2;
+        
+        for(int i=0;i<n;i++)
+        {
+            if(i!=0) arr1.push_back(nums[i]);
+            if(i!=n-1) arr2.push_back(nums[i]);
         }
-        return dp.back();
+        
+        return max(robSimple(arr1), robSimple(arr2));
     }
 };
