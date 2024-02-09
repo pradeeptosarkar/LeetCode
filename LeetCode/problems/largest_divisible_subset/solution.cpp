@@ -3,39 +3,42 @@ public:
     vector<int> largestDivisibleSubset(vector<int>& nums) 
     {
         int n=nums.size();
-        if(n==1)
-            return {nums[0]};
-        if(n==0)
-            return {};
+        vector<int> dp(n,1), hash(n);
         
-        vector<int> dp(n,1);
+        int maxi=1;
+        int lastIndex=0;
         sort(nums.begin(), nums.end());
-        int ans=1;
         
-        for(int i=1;i<n;i++)
+        for(int i=0;i<n;i++)
         {
-            for(int j=0;j<i;j++)
+            hash[i]=i;
+            
+            for(int prev=0;prev<i;prev++)
             {
-                if(nums[i]%nums[j]==0 and 1+dp[j]>dp[i])
-                    dp[i]=1+dp[j];
-                    
-                ans=max(ans,dp[i]);
+                if(nums[i]%nums[prev]==0 and 1+dp[prev]>dp[i])
+                {
+                    dp[i]=dp[prev]+1;
+                    hash[i]=prev;
+                }
+            }
+            
+            if(dp[i]>maxi)
+            {
+                maxi=dp[i];
+                lastIndex=i;
             }
         }
         
-        int prev=-1;
-        vector<int> lis;
+        vector<int> ans;
+        ans.push_back(nums[lastIndex]);
         
-        for(int i=n-1;i>=0;i--)
+        while(hash[lastIndex]!=lastIndex)
         {
-            if(dp[i]==ans and (prev==-1 or nums[prev]%nums[i]==0))
-            {
-                lis.push_back(nums[i]);
-                prev=i;
-                ans--;
-            }
+            lastIndex=hash[lastIndex];
+            ans.push_back(nums[lastIndex]);
         }
-        return lis;
         
+        reverse(ans.begin(), ans.end());
+        return ans;
     }
 };
