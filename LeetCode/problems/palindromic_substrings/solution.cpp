@@ -17,6 +17,5 @@ public:
             ans+= countPal(s, i, i) + countPal(s, i, i+1);
         
         return ans;
-        
     }
 };
