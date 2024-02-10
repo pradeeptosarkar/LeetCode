@@ -3,13 +3,31 @@ public:
     
     int uniquePaths(int m, int n) 
     {
-        int N=m+n-2;
-        int r=min(n-1,m-1);
-        double ans=1;
+        vector<int> prev(n,0);
         
-        for(int i=1;i<=r;i++)
-            ans=ans*(N-r+i)/i;
+        for(int i=0;i<m;i++)
+        {
+            vector<int> curr(n,0);
+            
+            for(int j=0;j<n;j++)
+            {
+                if(i==0 and j==0) curr[j]=1;
+                
+                else
+                {
+                    int up = 0;
+                    int left = 0;
+                    
+                    if(i>0) up=prev[j];
+                    if(j>0) left=curr[j-1];
+                    
+                    curr[j]=up+left;
+                }
+            }
+            
+            prev=curr;
+        }
         
-        return (int)ans;
+        return prev[n-1];
     }
 };
