@@ -1,35 +1,38 @@
 class Solution {
 public:
-    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
-        vector<vector<pair<int, int>>> adj(n);
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) 
+    {
+        vector<vector<pair<int,int>>> graph(n);
         
-        for (auto& e : flights) 
-            adj[e[0]].push_back({e[1], e[2]});
+        for(auto i:flights)
+            graph[i[0]].push_back({i[1],i[2]});
         
-        vector<int> dist(n, numeric_limits<int>::max());
-        queue<pair<int, int>> q;
-        q.push({src, 0});
-        int stops = 0;
-
-        while (stops <= k && !q.empty()) 
+        vector<int> dist(n, INT_MAX);
+        queue<pair<int,int>> q;
+        q.push({src,0});
+        int stops=0;
+        
+        while(stops<=k and !q.empty())
         {
-            int sz = q.size();
-            
-            while (sz--) {
-                auto [node, distance] = q.front();
+            int size=q.size();
+            while(size--)
+            {
+                auto [node, dis]=q.front();
                 q.pop();
                 
-                for (auto& [neighbour, price] : adj[node]) 
+                for(auto [neighbor, price] : graph[node])
                 {
-                    if (price + distance >= dist[neighbour]) 
+                    if(price+dis>=dist[neighbor])
                         continue;
                     
-                    dist[neighbour] = price + distance;
-                    q.push({neighbour, dist[neighbour]});
+                    dist[neighbor]=price+dis;
+                    q.push({neighbor, dist[neighbor]});
                 }
             }
+            
             stops++;
         }
-        return dist[dst] == numeric_limits<int>::max() ? -1 : dist[dst];
+        
+        return dist[dst]==INT_MAX ? -1 : dist[dst];
     }
 };
