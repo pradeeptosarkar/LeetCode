@@ -1,67 +1,54 @@
 class Solution {
 public:
-    #define MAX 15
-    #define INF (int)(1e9)
-    vector<int> values[2][MAX+1]; 
-
-    void get_comb(vector<int>& v, int loc){
-        int lim = (1 << v.size());
-        for(int i=0;i<lim;i++){
-            int d = i;
+    vector<vector<int>> getSumOfSubset(int start, int end,vector<int>& nums)
+    {
+        int n = end-start+1;
+        vector<vector<int>> res(n+1);
+        for(int i = 0; i < (1<<n); ++i)
+        {
             int sum = 0;
-            int cnt = 0;
-            for(int n=0;n<v.size();n++){
-                if((d & 1) == 1){
-                    sum += v[n];
-                    cnt++;
+            int len = 0;
+            for(int j = 0; j < n; ++j)
+            {
+                if((1<<j)&i)
+                {
+                    sum += nums[start+j];
+                    ++len;
                 }
-                d = d >> 1;
             }
-            values[loc][cnt].emplace_back(sum);
+            res[len].push_back(sum);
+
         }
+        return res;
     }
-    void value_sort(){
-        for(int i=0;i<=MAX;i++){
-            sort(values[0][i].begin(), values[0][i].end());
-            sort(values[1][i].begin(), values[1][i].end());
-            values[0][i].erase(unique(values[0][i].begin(), values[0][i].end()), values[0][i].end());
-            values[1][i].erase(unique(values[1][i].begin(), values[1][i].end()), values[1][i].end());
-        }
-    }
-    
-    void update(int& ans, int e, int x, int total){
-        int value = abs(-2*e - 2*x + total);
-        if(value < ans){
-            ans = value;
-        }
-    }
-    
-    int minimumDifference(vector<int>& nums) {
+    int minimumDifference(vector<int>& nums) 
+    {
         int n = nums.size()/2;
-        int total = 0;
-        vector<int> left(n), right(n);
-        for(int i=0;i<n;i++){
-            left[i] = nums[i];
-            right[i] = nums[i+n];
-            total += nums[i];
-            total += nums[i+n];
+        int S = accumulate(nums.begin(), nums.end(), 0);
+        int ans = INT_MAX;
+        vector<vector<int>> left = getSumOfSubset(0,n-1,nums);
+        vector<vector<int>> right = getSumOfSubset(n,2*n-1,nums);
+        for(auto& sums: right)
+        {
+            sort(sums.begin(),sums.end());
         }
-        get_comb(left, 0);
-        get_comb(right, 1);
-        int ans = INF;
-        value_sort();
-        for(int i=0;i<=n;i++){
-            for(int e : values[0][i]){
-                auto lower = lower_bound(values[1][n-i].begin(), values[1][n-i].end(), (total - 2*e + 1)/2);
-                if(lower != values[1][n-i].end()){
-                    update(ans, e, *(lower), total);
+        for(int l = 1; l <=n; ++l)
+        {
+            for(auto& sum:left[l])
+            {
+                int inf = 2*(sum+right[n-l][0])-S;
+                int sup = 2*(sum+right[n-l].back())-S;
+                if(sup<=0||inf>=0)
+                {
+                    ans = min({ans,abs(sup),abs(inf)});
+                    continue;
                 }
-                if(lower != values[1][n-i].begin()){
-                    lower--;
-                    update(ans, e, *(lower), total);
-                }
+                auto it = lower_bound(right[n-l].begin(), right[n-l].end(), (S+S%2)/2-sum);
+                ans = min({ans, abs(2*(sum + *it) - S), abs(2*(sum + *(--it)) - S)});
+
             }
         }
+        
         return ans;
     }
 };
